@@ -8,7 +8,7 @@ const preguntas = [
   {categoria: "Educación Física", pregunta: "¿Cuál es un ejercicio de calentamiento?", opciones: ["Dormir", "Caminar", "Estudiar", "Comer"], respuesta: "Caminar"}
 ];
 
-let tiempoTotal = 60;
+let tiempoTotal = 20;
 let temporizador;
 let jugador = "";
 let usadas = [];
