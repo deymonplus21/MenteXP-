@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MenteXP</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="pantalla-inicio">
+    <h1 class="titulo">🎓 ¡Bienvenido a <span class="colorido">MenteXP</span>! 🎓</h1>
+    <p class="subtitulo">Pon a prueba tus conocimientos en múltiples áreas</p>
+    <input type="text" id="nombreJugador" placeholder="Escribe tu nombre" />
+    <button id="btnJugar">¡Jugar ahora!</button>
+  </div>
+  <div class="juego" style="display:none;">
+    <h2 id="categoria"></h2>
+    <p id="pregunta"></p>
+    <div id="opciones"></div>
+    <p id="temporizador"></p>
+  </div>
+  <script src="main.js"></script>
+</body>
+</html>
