@@ -1,24 +1,45 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MenteXP</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <div class="pantalla-inicio">
-    <h1 class="titulo">🎓 ¡Bienvenido a <span class="colorido">MenteXP</span>! 🎓</h1>
-    <p class="subtitulo">Pon a prueba tus conocimientos en múltiples áreas</p>
-    <input type="text" id="nombreJugador" placeholder="Escribe tu nombre" />
-    <button id="btnJugar">¡Jugar ahora!</button>
-  </div>
-  <div class="juego" style="display:none;">
-    <h2 id="categoria"></h2>
-    <p id="pregunta"></p>
-    <div id="opciones"></div>
-    <p id="temporizador"></p>
-  </div>
-  <script src="main.js"></script>
-</body>
-</html>
+  <meta charset="UTF-8">
+  <title>MenteXP - Inicio</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    #videoFondo {
+      position: fixed;
+      top: 0;
+      left: 0;
+      min-width: 100vw;
+      min-height: 100vh;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    .contenedor {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      color: white;
+      text-shadow: 1px 1px 5px black;
+    }
+
+    button {
+      padding: 15px 30px;
+      font-size: 20px;
+      font-weight: bold;
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      border: 2px solid white;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
