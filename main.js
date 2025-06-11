@@ -1,72 +1,58 @@
-const preguntas = [
-  {categoria: "Matemática", pregunta: "¿Cuánto es 5 × 4?", opciones: ["20", "10", "15", "25"], respuesta: "20"},
-  {categoria: "Comunicación", pregunta: "¿Qué es un sustantivo?", opciones: ["Un verbo", "Una acción", "Una persona, lugar o cosa", "Un adjetivo"], respuesta: "Una persona, lugar o cosa"},
-  {categoria: "Ciencia y Tecnología", pregunta: "¿Qué planeta es conocido como el planeta rojo?", opciones: ["Marte", "Júpiter", "Venus", "Saturno"], respuesta: "Marte"},
-  {categoria: "DPCC", pregunta: "¿Qué es el respeto?", opciones: ["Insultar", "Escuchar a otros", "Gritar", "Ignorar"], respuesta: "Escuchar a otros"},
-  {categoria: "Sociales", pregunta: "¿En qué continente está Perú?", opciones: ["Asia", "Europa", "América", "África"], respuesta: "América"},
-  {categoria: "Arte", pregunta: "¿Qué mezcla de colores da como resultado el color verde?", opciones: ["Rojo + Azul", "Azul + Amarillo", "Amarillo + Rojo", "Negro + Blanco"], respuesta: "Azul + Amarillo"},
-  {categoria: "Educación Física", pregunta: "¿Cuál es un ejercicio de calentamiento?", opciones: ["Dormir", "Caminar", "Estudiar", "Comer"], respuesta: "Caminar"}
+const sets = [
+  [
+    { pregunta: "¿Cuál es la capital de Kazajistán?", opciones: ["Astaná", "Tashkent", "Bishkek"], correcta: 0 },
+    { pregunta: "¿Quién propuso la teoría del Big Bang?", opciones: ["Einstein", "Lemaître", "Hawking"], correcta: 1 },
+    { pregunta: "¿Qué elemento tiene el número atómico 92?", opciones: ["Uranio", "Plutonio", "Radio"], correcta: 0 }
+  ],
+  [
+    { pregunta: "¿Cuál es la raíz cuadrada de 625?", opciones: ["20", "25", "30"], correcta: 1 },
+    { pregunta: "¿Qué año ocurrió la Revolución Francesa?", opciones: ["1789", "1799", "1804"], correcta: 0 },
+    { pregunta: "¿Qué filósofo escribió 'El ser y la nada'?", opciones: ["Heidegger", "Sartre", "Nietzsche"], correcta: 1 }
+  ]
 ];
 
-let tiempoTotal = 20;
-let temporizador;
-let jugador = "";
-let usadas = [];
+let setIndex = 0;
+let questionIndex = 0;
 
-function iniciarJuego() {
-  jugador = document.getElementById("nombreJugador").value;
-  if (!jugador) {
-    alert("Por favor escribe tu nombre.");
-    return;
-  }
-  document.querySelector(".pantalla-inicio").style.display = "none";
-  document.querySelector(".juego").style.display = "block";
-  iniciarTemporizador();
-  mostrarPregunta();
-}
-
-function iniciarTemporizador() {
-  document.getElementById("temporizador").textContent = `Tiempo: ${tiempoTotal}s`;
-  temporizador = setInterval(() => {
-    tiempoTotal--;
-    document.getElementById("temporizador").textContent = `Tiempo: ${tiempoTotal}s`;
-    if (tiempoTotal <= 0) {
-      clearInterval(temporizador);
-      alert("¡Tiempo terminado!");
-      window.location.href = "tabla.html";
-    }
-  }, 1000);
-}
+const questionContainer = document.getElementById("question-container");
+const nextButton = document.getElementById("next-button");
+const restartButton = document.getElementById("restart-button");
 
 function mostrarPregunta() {
-  if (usadas.length === preguntas.length) usadas = [];
+  const preguntaActual = sets[setIndex][questionIndex];
+  questionContainer.innerHTML = `
+    <h2>${preguntaActual.pregunta}</h2>
+    ${preguntaActual.opciones.map((op, i) => `<button onclick="verificarRespuesta(${i})">${op}</button>`).join("")}
+  `;
+  nextButton.style.display = "none";
+}
 
-  let indice;
-  do {
-    indice = Math.floor(Math.random() * preguntas.length);
-  } while (usadas.includes(indice));
+function verificarRespuesta(indice) {
+  const correcta = sets[setIndex][questionIndex].correcta;
+  if (indice === correcta) {
+    nextButton.style.display = "inline-block";
+  } else {
+    alert("Incorrecto. Intenta otra vez.");
+  }
+}
 
-  usadas.push(indice);
+nextButton.addEventListener("click", () => {
+  questionIndex++;
+  if (questionIndex < sets[setIndex].length) {
+    mostrarPregunta();
+  } else {
+    restartButton.style.display = "inline-block";
+    questionContainer.innerHTML = "<h2>¡Ronda terminada!</h2>";
+    nextButton.style.display = "none";
+  }
+});
 
-  const pregunta = preguntas[indice];
-  document.getElementById("categoria").textContent = `Área: ${pregunta.categoria}`;
-  document.getElementById("pregunta").textContent = pregunta.pregunta;
-
-  const opcionesDiv = document.getElementById("opciones");
-  opcionesDiv.innerHTML = "";
-  pregunta.opciones.forEach(op => {
-    const btn = document.createElement("button");
-    btn.textContent = op;
-    btn.onclick = () => {
-      if (op === pregunta.respuesta) {
-        alert("¡Correcto!");
-      } else {
-        alert("Incorrecto");
-      }
-      mostrarPregunta();
-    };
-    opcionesDiv.appendChild(btn);
-  });
+restartButton.addEventListener("click", () => {
+  setIndex = (setIndex + 1) % sets.length;
+  questionIndex = 0;
+  restartButton.style.display = "none";
+  mostrarPregunta();
+});
 }
 
 document.getElementById("btnJugar").addEventListener("click", iniciarJuego);
